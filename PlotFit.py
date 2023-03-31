@@ -116,7 +116,7 @@ def Plot(x,y,sigy=None,
         ax.set_ylabel(ylabel,size=12)
         ax.set_xlabel(xlabel,size=12)
         
-  def Gradient(vals,func):
+def Gradient(vals,func):
   '''
     Returns the Gradient of a function at a specific point
   '''
