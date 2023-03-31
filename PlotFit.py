@@ -47,9 +47,9 @@ def Plot(x,y,sigy=None,
         if sigy!=None:
             fig,ax = plt.subplots(2,figsize=(8,6),sharex=True,gridspec_kw={'height_ratios': [3, 1],'hspace':0.05})
                 
-            ax[0].errorbar(x,y,sigy,fmt='.',c='k',markersize=0.4)
+            ax[0].errorbar(x,y,sigy,fmt='s',facecolors='none',edgecolors='k',markersize=12)
             ax[0].plot(x,func(x,*popt),c='r')
-            ax[1].errorbar(x,r,sigy,fmt='.',c='k',markersize=0.4)
+            ax[1].errorbar(x,r,sigy,fmt='s',facecolors='none',edgecolors='k',markersize=12)
         
             # scales types
             if log:
