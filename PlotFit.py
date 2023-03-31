@@ -91,7 +91,7 @@ def Plot(x,y,sigy=None,
     
         plt.xlabel(xlabel,size=12)
                   
-        return (popt,pcov)
+        return (ax,popt,pcov)
     
     # Graph without fit
     else:        
