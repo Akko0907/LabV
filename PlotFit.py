@@ -71,7 +71,7 @@ def Plot(x,y,sigy=None,
         else:
             fig,ax = plt.subplots(figsize=(8,6))
                 
-            ax.scatter(x,y,marker='.',c='k',s=2)
+            ax.scatter(x,y,marker='s',facecolors='none',edgecolors='k',s=12)
             ax.plot(x,func(x,*popt),c='r')
 
             # scales types
