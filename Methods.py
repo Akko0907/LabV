@@ -114,7 +114,7 @@ def Plot(x, y, sigy=None, xlabel: str='X', ylabel: str='Y', log: bool=False,
                   
     return ax
 
-def Gradient(point: 'list|tuple', func: 'function', divs: int=1000):
+def Grad(point: 'list|tuple', func: 'function', divs: int=1000):
     '''Returns the Gradient of a function at a specific point.'''
     argc = len(point)
 
@@ -129,11 +129,11 @@ def Gradient(point: 'list|tuple', func: 'function', divs: int=1000):
             F1[i][j-1] = func(*coord)
         
     df = F2-F1
-    diff = df[:,divs/2-1]/h
+    diff = df[:,divs//2-1]/h
     
     return diff
 
-def Propagate_sig(vals: 'list|tuple', sigs: 'list|tuple', func: 'function'):
+def Prop_sig(vals: 'list|tuple', sigs: 'list|tuple', func: 'function'):
   ''' Propagate Uncertainties. Receives 2 lists/tuples of values representing
     the point/uncertainty, and the function relating the variables.
 
@@ -150,7 +150,7 @@ def Propagate_sig(vals: 'list|tuple', sigs: 'list|tuple', func: 'function'):
     returns the uncertainty of f(0.2, 1, 3.75).  
   '''
   
-  grad = Gradient(vals,func)
+  grad = Grad(vals,func)
   sigs = np.array(sigs)
   sigf = np.sqrt( np.sum( grad**2 * sigs**2 ) )
 
