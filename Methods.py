@@ -163,7 +163,7 @@ def Z_score(x: float, mu: float, sigx: float, sigmu: float=0):
 
   return Z
 
-def FFTPlot(x, y, ylabel: str="FFT Amplitude", xlabel: str='Frequency'):
+def FFTPlot(x, y, ylabel: str="FFT Amplitude", xlabel: str='Frequency',rel_height=1):
     N = len(x)
     Fs = N/(x[N-1]-x[0])
     Yk = fft(y)
@@ -175,7 +175,7 @@ def FFTPlot(x, y, ylabel: str="FFT Amplitude", xlabel: str='Frequency'):
     fpeaks = np.array(freq[peaks_index])
     Apeaks = np.array(A[peaks_index])
 
-    width,height,left,right = peak_widths(A,peaks_index,rel_height=0.5)
+    width,height,left,right = peak_widths(A,peaks_index,rel_height=rel_height)
     right = right*Fs/N
     left = left*Fs/N
     width = right-left
