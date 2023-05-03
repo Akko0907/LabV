@@ -169,7 +169,7 @@ def FFTPlot(x, y, ylabel: str="FFT Amplitude", xlabel: str='Frequency',rel_heigh
     Yk = fft(y)
 
     freq = np.arange(0,Fs/2,Fs/N)
-    A = abs(Yk[:len(freq)+1])/(len(freq))
+    A = abs(Yk[:len(freq)])/(len(freq))
 
     peaks_index, _ = find_peaks(A, prominence=0.2*max(A))
     fpeaks = np.array(freq[peaks_index])
