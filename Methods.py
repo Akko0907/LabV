@@ -36,7 +36,7 @@ def PlotFit(x, y, sigy=None, func: 'function'=None, p0=None,
     
     popt,pcov,r = Fit(x,y,func,sigy,p0)
         
-    if sigy!=None:
+    if sigy is not None:
         fig,ax = plt.subplots(2,figsize=(8,6),sharex=True,gridspec_kw={'height_ratios': [3, 1],'hspace':0.05})
                 
         ax[0].errorbar(x, y, sigy, fmt=marker, ecolor=markeredge,
