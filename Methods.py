@@ -39,7 +39,7 @@ def PlotFit(x, y, sigy=None, func: 'function'=None, p0=None,
     if sigy is not None:
         fig,ax = plt.subplots(2,figsize=(8,6),sharex=True,gridspec_kw={'height_ratios': [3, 1],'hspace':0.05})
                 
-        ax[0].errorbar(x, y, sigy, fmt=marker, ecolor=markeredge,
+        ax[0].errorbar(x, y, sigy, fmt=marker, ecolor=markeredge, markersize=markersize,
                        markerfacecolor=markerface, markeredgecolor=markeredge)
         if len(x)<50:
             start = x[0]
@@ -48,7 +48,7 @@ def PlotFit(x, y, sigy=None, func: 'function'=None, p0=None,
         else:
             u = x
         ax[0].plot(u,func(u,*popt),c='r')
-        ax[1].errorbar(x, r, sigy, fmt=marker, ecolor=markeredge,
+        ax[1].errorbar(x, r, sigy, fmt=marker, ecolor=markeredge, markersize=markersize,
                        markerfacecolor=markerface, markeredgecolor=markeredge)
         
         # scales types
