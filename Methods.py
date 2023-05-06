@@ -213,24 +213,24 @@ def GenStatTable(function: str, y, yfit, popt, pcov, sigy=None):
     i = 0
     dic = 'abcdefg' 
     while i < len(popt):
-        k = round(popt[i],3)
-        sigma_k = round((pcov[i][i]**0.5),3)
-        txts.append(f'${dic[i]} = {k} \pm {sigma_k}$')
+        k = popt[i]
+        sigma_k = (pcov[i][i]**0.5)
+        txts.append(f'${dic[i]} = {k:.4g} \pm {sigma_k:.4g}$')
         i+=1
     
     # R-SQUARED
-    r2 = round(R_squared(y,yfit),5)
-    txts.append(f"$R^2 = {r2}$")
+    r2 = R_squared(y,yfit)
+    txts.append(f"$R^2 = {r2:.5g}$")
 
     # CHI^2
     if sigy is not None:
-        chiq = round(sum(((y-yfit)/sigy)**2),5)
-        txts.append(f"$\chi^2 = {chiq}$")
+        chiq = sum(((y-yfit)/sigy)**2)
+        txts.append(f"$\chi^2 = {chiq:.5g}$")
         NGL = len(y)-len(popt)
-        txts.append(f"$NGL = {NGL}$")
+        txts.append(f"$NGL = {NGL:.5g}$")
 
     for txt in txts:
         table += txt + "\n"
     
-    return table[:-2]
+    return table[:-1]
     
