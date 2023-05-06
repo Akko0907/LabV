@@ -4,7 +4,7 @@ from scipy.signal import find_peaks, peak_widths
 from numpy.fft import fft
 import numpy as np
 
-def Fit(x, y, func=None, sigy=None, p0=None):    
+def Fit(x, y, func=None, sigy=None, p0=None) -> 'tuple[np.ndarray]':    
      
     popt, pcov = curve_fit(func,x,y,p0=p0)
     
@@ -85,7 +85,7 @@ def PlotFit(x, y, sigy=None, func: 'function'=None, p0=None,
     return (ax,popt,pcov)
 
 def Plot(x, y, sigy=None, xlabel: str='X', ylabel: str='Y', log: bool=False, 
-         marker: str='s', markersize: float=12, markeredge: str='k', markerface: str='none'):
+         marker: str='s', markersize: float=12, markeredge: str='k', markerface: str='none') -> plt.Axes:
     
     if sigy!=None:
         fig,ax = plt.subplots()
@@ -114,7 +114,7 @@ def Plot(x, y, sigy=None, xlabel: str='X', ylabel: str='Y', log: bool=False,
                   
     return ax
 
-def Grad(point: 'list|tuple', func: 'function', divs: int=1000):
+def Grad(point: 'list|tuple', func: 'function', divs: int=1000) -> np.ndarray:
     '''Returns the Gradient of a function at a specific point.'''
     argc = len(point)
 
@@ -133,7 +133,7 @@ def Grad(point: 'list|tuple', func: 'function', divs: int=1000):
     
     return diff
 
-def Prop_sig(vals: 'list|tuple', sigs: 'list|tuple', func: 'function'):
+def Prop_sig(vals: 'list|tuple', sigs: 'list|tuple', func: 'function') -> float:
   ''' Propagate Uncertainties. Receives 2 lists/tuples of values representing
     the point/uncertainty, and the function relating the variables.
 
@@ -156,7 +156,7 @@ def Prop_sig(vals: 'list|tuple', sigs: 'list|tuple', func: 'function'):
 
   return sigf
 
-def Z_score(x: float, mu: float, sigx: float, sigmu: float=0):
+def Z_score(x: float, mu: float, sigx: float, sigmu: float=0) -> float:
   '''Returns The Z-score of X'''
   sig = (sigx**2 + sigmu**2)**0.5
   Z = abs(x-mu)/sig
@@ -196,3 +196,41 @@ def FFTPlot(x, y, ylabel: str="FFT Amplitude", xlabel: str='Frequency',rel_heigh
 
     return ax,fpeaks, [width,height,left,right]
 
+def R_squared(y,yfit) -> float:
+    r = y- yfit
+    ss_res = np.sum(r**2)
+    ss_tot = np.sum((y-np.mean(y))**2)
+    r_squared = 1 - (ss_res / ss_tot)
+
+    return r_squared
+
+def GenStatTable(function: str, y, yfit, popt, pcov, sigy=None):
+    # FUNCTION TYPE
+    txts = [function]
+    table = ""
+
+    # FITTED PARAMETERS
+    i = 0
+    dic = 'abcdefg' 
+    while i < len(popt):
+        k = round(popt[i],3)
+        sigma_k = round((pcov[i][i]**0.5),3)
+        txts.append(f'${dic[i]} = {k} \pm {sigma_k}$')
+        i+=1
+    
+    # R-SQUARED
+    r2 = round(R_squared(y,yfit),5)
+    txts.append(f"$R^2 = {r2}$")
+
+    # CHI^2
+    if sigy is not None:
+        chiq = round(sum(((y-yfit)/sigy)**2),5)
+        txts.append(f"$\chi^2 = {chiq}$")
+        NGL = len(y)-len(popt)
+        txts.append(f"$NGL = {NGL}$")
+
+    for txt in txts:
+        table += txt + "\n"
+    
+    return table[:-2]
+    
