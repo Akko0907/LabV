@@ -4,29 +4,30 @@ from scipy.signal import find_peaks, peak_widths
 from numpy.fft import fft
 import numpy as np
 
-def Fit(x, y, func=None, sigy=None, p0=None) -> 'tuple[np.ndarray]':    
+def Fit(x, y, func=None, sigy=None, p0=None, mute=True) -> 'tuple[np.ndarray]':    
      
     popt, pcov = curve_fit(func,x,y,p0=p0)
     
     # PRINTING PARAMETERS
-    print(' Parameters calculated: ')
-    i = 0
-    dic = 'abcdefg' 
-    while i < len(popt):
-        k = popt[i]
-        sigma_k = (pcov[i][i]**0.5)
-        print(f'{dic[i]} = {k} +- {sigma_k}')
-        i+=1
-    print()
-    print(pcov)
+    if not mute:
+        print(' Parameters calculated: ')
+        i = 0
+        dic = 'abcdefg' 
+        while i < len(popt):
+            k = popt[i]
+            sigma_k = (pcov[i][i]**0.5)
+            print(f'{dic[i]} = {k} +- {sigma_k}')
+            i+=1
+        print()
+        print(pcov)
 
     # RESIDUES AND CHI^2
     r = ((func(x,*popt)-y))
     if sigy is not None:
         chiq = sum((r/sigy)**2)
         NGL = len(x)-len(popt)
-        print(f'NGL = {NGL} \nchiq = {chiq}')
         return popt,pcov,r
+        
     
     return popt,pcov,r
 
@@ -34,7 +35,7 @@ def PlotFit(x, y, sigy=None, func: 'function'=None, p0=None,
          xlabel: str='X', ylabel: str='Y', log: bool=False, marker: str='s', 
          markersize: float=12, markeredge: str='k', markerface: str='none'):
     
-    popt,pcov,r = Fit(x,y,func,sigy,p0)
+    popt,pcov,r = Fit(x,y,func,sigy,p0,mute=False)
         
     if sigy is not None:
         fig,ax = plt.subplots(2,figsize=(8,6),sharex=True,gridspec_kw={'height_ratios': [3, 1],'hspace':0.05})
